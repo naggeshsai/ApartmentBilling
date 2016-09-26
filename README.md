@@ -2,11 +2,8 @@
 For Billing between friends
 
 
-# Database Queries
-
+Database Queries
 CREATE DATABASE `apartmentbilling` /*!40100 DEFAULT CHARACTER SET utf8 */;
-
-
 CREATE TABLE `common_expenses` (
   `ID` int(11) NOT NULL,
   `NAME` varchar(45) NOT NULL,
