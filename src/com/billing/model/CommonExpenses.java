@@ -22,7 +22,7 @@ public class CommonExpenses implements Serializable {
 	private Date enteredDate;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.TABLE)
 	@Column(name = "ID", unique = true, nullable = false)
 	public int getId() {
 		return id;

@@ -24,6 +24,7 @@ public class UserService {
 		session.beginTransaction();
 		CommonExpenses expenses = new CommonExpenses();
 
+		expenses.setId(1);
 		expenses.setName(name);
 		expenses.setAmount(amount);
 		expenses.setSpentby(spentby);
