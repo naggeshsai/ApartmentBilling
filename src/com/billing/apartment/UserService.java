@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 import org.hibernate.Session;
 
 import com.billing.model.CommonExpenses;
+import com.billing.model.ConstantValues;
 import com.billing.util.HibernateUtil;;
 
 @Path("/user")
@@ -32,9 +33,26 @@ public class UserService {
 
 		session.save(expenses);
 		session.getTransaction().commit();
-		return Response.status(200).entity(
-				"addMoney is called,name :" + name + ", amount:" + amount + ",spentby :" + spentby + ",date :" + dateent)
-				.build();
+		return Response.status(200).entity("addMoney is called,name :" + name + ", amount:" + amount + ",spentby :"
+				+ spentby + ",date :" + dateent).build();
 
+	}
+
+	@POST
+	@Path("/addConstantValue")
+	public Response addConstanValue(@FormParam("name") String name, @FormParam("amount") int amount) {
+		System.out.println(name + " " + amount);
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		session.beginTransaction();
+		ConstantValues expenses = new ConstantValues();
+
+		expenses.setId(1);
+		expenses.setName(name);
+		expenses.setAmount(amount);
+		
+		session.save(expenses);
+		session.getTransaction().commit();
+		return Response.status(200).entity("addConstantValue is Called, name:" + name + ",amount:" + amount).build();
 	}
 }

@@ -9,5 +9,17 @@ CREATE TABLE `common_expenses` (
   `NAME` varchar(45) NOT NULL,
   `AMOUNT` int(11) NOT NULL,
   `SPENTBY` varchar(45) NOT NULL,
-  `ENTEREDDATE` date NOT NULL
+  `ENTEREDDATE` date NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `ID_UNIQUE` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `constant_values` (
+  `ID` int(11) NOT NULL,
+  `NAME` varchar(45) NOT NULL,
+  `AMOUNT` varchar(45) NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `ID_UNIQUE` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

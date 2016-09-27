@@ -13,6 +13,7 @@
 		<property name="show_sql">true</property>
 		<property name="format_sql">true</property>
 		<property name="hbm2ddl.auto">update </property>
+		<mapping class="com.billing.model.ConstantValues"></mapping>
 		<mapping class="com.billing.model.CommonExpenses"></mapping>
 	</session-factory>
 </hibernate-configuration>
