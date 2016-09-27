@@ -19,3 +19,11 @@ CREATE TABLE `constant_values` (
   UNIQUE KEY `ID_UNIQUE` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+CREATE TABLE `user` (
+  `ID` int(11) NOT NULL,
+  `NAME` varchar(45) NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `UK_o3uyea7py4jnln0qxrtg1qqhq` (`NAME`),
+  UNIQUE KEY `ID_UNIQUE` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

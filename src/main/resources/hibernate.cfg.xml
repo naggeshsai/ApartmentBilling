@@ -15,5 +15,6 @@
 		<property name="hbm2ddl.auto">update </property>
 		<mapping class="com.billing.model.ConstantValues"></mapping>
 		<mapping class="com.billing.model.CommonExpenses"></mapping>
+		<mapping class="com.billing.model.User"></mapping>
 	</session-factory>
 </hibernate-configuration>
