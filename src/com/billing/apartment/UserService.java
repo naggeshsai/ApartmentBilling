@@ -1,16 +1,22 @@
 package com.billing.apartment;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 
 import com.billing.model.CommonExpenses;
 import com.billing.model.ConstantValues;
+import com.billing.model.PerPersonExpenses;
 import com.billing.model.User;
 import com.billing.util.HibernateUtil;;
 
@@ -74,5 +80,26 @@ public class UserService {
 
 		return Response.status(200).entity("addUser is Called, name:" + name).build();
 
+	}
+
+	@POST
+	@Path("/getAmountPerPerson")
+	public Response getAmountPerPerson() {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		List<Object> commonExpenses = session
+				.createQuery(
+						"SELECT " + "spentby," + "sum(amount) AS AMOUNT  FROM CommonExpenses group by spentby")
+				.list();
+		List<PerPersonExpenses> perPersonExpenses = new ArrayList<PerPersonExpenses>();
+		for (Object object : commonExpenses) {
+			Object[] result = (Object[]) object;
+			PerPersonExpenses perPersonExpense = new PerPersonExpenses();
+			perPersonExpense.setSPENTBY((String) result[1]);
+			perPersonExpense.setAMOUNT((int) result[2]);
+			perPersonExpenses.add(perPersonExpense);
+		}
+		session.getTransaction().commit();
+		return Response.status(200).entity(commonExpenses).build();
 	}
 }

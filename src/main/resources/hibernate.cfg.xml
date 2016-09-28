@@ -16,5 +16,6 @@
 		<mapping class="com.billing.model.ConstantValues"></mapping>
 		<mapping class="com.billing.model.CommonExpenses"></mapping>
 		<mapping class="com.billing.model.User"></mapping>
+		<mapping class="com.billing.model.PerPersonExpenses" />
 	</session-factory>
 </hibernate-configuration>
