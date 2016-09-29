@@ -2,6 +2,7 @@ package com.billing.apartment;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.ws.rs.FormParam;
@@ -86,20 +87,15 @@ public class UserService {
 	@Path("/getAmountPerPerson")
 	public Response getAmountPerPerson() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-
-		List<Object> commonExpenses = session
-				.createQuery(
-						"SELECT " + "id," +"spentby," + "sum(amount) AS AMOUNT  FROM CommonExpenses group by spentby")
-				.list();
-		List<PerPersonExpenses> perPersonExpenses = new ArrayList<PerPersonExpenses>();
-		for (Object object : commonExpenses) {
-			Object[] result = (Object[]) object;
-			PerPersonExpenses perPersonExpense = new PerPersonExpenses();
-			perPersonExpense.setSPENTBY((String) result[1]);
-			perPersonExpense.setAMOUNT((int) result[2]);
-			perPersonExpenses.add(perPersonExpense);
-		}
+		session.beginTransaction();
+		List<PerPersonExpenses> perPersonExpensess = (List<PerPersonExpenses>) session.createQuery("SELECT " + "ce.id,"
+				+ "ce.spentby," + "sum(ce.amount) AS AMOUNT  FROM CommonExpenses ce group by spentby").list();
 		session.getTransaction().commit();
-		return Response.status(200).entity(commonExpenses).build();
+		PerPersonExpenses perPersonExpenses;
+		for (int i=0;i<=perPersonExpensess.size();i++){
+			perPersonExpenses=(PerPersonExpenses)perPersonExpensess.get(i);
+			System.out.println(perPersonExpenses.getSPENTBY());
+		}
+		return Response.status(200).build();
 	}
 }
