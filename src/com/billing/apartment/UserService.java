@@ -89,7 +89,7 @@ public class UserService {
 
 		List<Object> commonExpenses = session
 				.createQuery(
-						"SELECT " + "spentby," + "sum(amount) AS AMOUNT  FROM CommonExpenses group by spentby")
+						"SELECT " + "id," +"spentby," + "sum(amount) AS AMOUNT  FROM CommonExpenses group by spentby")
 				.list();
 		List<PerPersonExpenses> perPersonExpenses = new ArrayList<PerPersonExpenses>();
 		for (Object object : commonExpenses) {

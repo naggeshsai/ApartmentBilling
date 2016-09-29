@@ -12,8 +12,18 @@ import javax.persistence.Table;
 public class PerPersonExpenses {
 	private String SPENTBY;
 	private int AMOUNT;
+	private int ID;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE)
+	@Column(name = "ID", unique = true, nullable = false)
+	public int getID() {
+		return ID;
+	}
 
+	public void setID(int iD) {
+		ID = iD;
+	}
 
 	@Column(name = "SPENTBY", unique = true, nullable = false, length = 45)
 	public String getSPENTBY() {
