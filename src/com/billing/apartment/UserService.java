@@ -2,18 +2,17 @@ package com.billing.apartment;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.hibernate.Criteria;
+import org.codehaus.jettison.json.JSONException;
 import org.hibernate.Session;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
 
 import com.billing.model.CommonExpenses;
 import com.billing.model.ConstantValues;
@@ -84,18 +83,26 @@ public class UserService {
 	}
 
 	@POST
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/getAmountPerPerson")
-	public Response getAmountPerPerson() {
+	public List<PerPersonExpenses> getAmountPerPerson() throws JSONException {
 		Session session = HibernateUtil.getSessionFactory().openSession();
+		List<PerPersonExpenses> perPersonExpensess = new ArrayList<PerPersonExpenses>();
 		session.beginTransaction();
-		List<PerPersonExpenses> perPersonExpensess = (List<PerPersonExpenses>) session.createQuery("SELECT " + "ce.id,"
-				+ "ce.spentby," + "sum(ce.amount) AS AMOUNT  FROM CommonExpenses ce group by spentby").list();
+		List result = session.createQuery("SELECT " + "ce.id," + "ce.spentby,"
+				+ "sum(ce.amount) AS AMOUNT  FROM CommonExpenses ce group by spentby").list();
 		session.getTransaction().commit();
 		PerPersonExpenses perPersonExpenses;
-		for (int i=0;i<=perPersonExpensess.size();i++){
-			perPersonExpenses=(PerPersonExpenses)perPersonExpensess.get(i);
-			System.out.println(perPersonExpenses.getSPENTBY());
+		for (int i = 0; i <= result.size() - 1; i++) {
+			Object[] result2 = (Object[]) result.get(i);
+			perPersonExpenses = new PerPersonExpenses();
+			perPersonExpenses.setID((int) result2[0]);
+			perPersonExpenses.setSPENTBY((String) result2[1]);
+			Long x = (Long) result2[2];
+			int h = x.intValue();
+			perPersonExpenses.setAMOUNT((int) h);
+			perPersonExpensess.add(perPersonExpenses);
 		}
-		return Response.status(200).build();
+		return perPersonExpensess;
 	}
 }
