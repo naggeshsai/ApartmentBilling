@@ -16,7 +16,9 @@ import org.codehaus.jettison.json.JSONException;
 import org.hibernate.Session;
 
 import com.billing.model.CommonExpenses;
+import com.billing.model.Constant;
 import com.billing.model.ConstantValues;
+import com.billing.model.PerMonthExpensesPerPerson;
 import com.billing.model.PerPersonExpenses;
 import com.billing.model.User;
 import com.billing.util.HibernateUtil;;
@@ -105,5 +107,41 @@ public class UserService {
 			perPersonExpensess.add(perPersonExpenses);
 		}
 		return perPersonExpensess;
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/getTotalExpensesPerMonth")
+	public List<PerMonthExpensesPerPerson> getAmountPerPersonPerMonth() {
+		List<PerMonthExpensesPerPerson> perMonthExpensesPerPersons = new ArrayList<PerMonthExpensesPerPerson>();
+		List<PerPersonExpenses> perPersonExpensess = new ArrayList<PerPersonExpenses>();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		List result1 = session.createQuery("SELECT " + "sum(cv.amount) AS AMOUNT  FROM ConstantValues cv").list();
+		Long constanttemp = (Long) result1.get(0);
+		int consta = constanttemp.intValue();
+		Constant.CONSTANT = consta;
+		List result = session.createQuery("SELECT " + "ce.id," + "ce.spentby,"
+				+ "sum(ce.amount) AS AMOUNT  FROM CommonExpenses ce group by spentby").list();
+		session.getTransaction().commit();
+		PerPersonExpenses perPersonExpenses;
+		for (int i = 0; i <= result.size() - 1; i++) {
+			Object[] result2 = (Object[]) result.get(i);
+			perPersonExpenses = new PerPersonExpenses();
+			perPersonExpenses.setID((int) result2[0]);
+			perPersonExpenses.setSPENTBY((String) result2[1]);
+			Long x = (Long) result2[2];
+			int h = x.intValue();
+			perPersonExpenses.setAMOUNT((int) h);
+			perPersonExpensess.add(perPersonExpenses);
+		}
+		for (int i = 0; i <= perPersonExpensess.size() - 1; i++) {
+			PerMonthExpensesPerPerson perMonthExpensesPerPerson = new PerMonthExpensesPerPerson();
+			perMonthExpensesPerPerson.setID(perPersonExpensess.get(i).getID());
+			perMonthExpensesPerPerson.setSPENTBY(perPersonExpensess.get(i).getSPENTBY());
+			perMonthExpensesPerPerson.setAMOUNT(perPersonExpensess.get(i).getAMOUNT() + Constant.CONSTANT);
+		}
+		session.getTransaction().commit();
+		return perMonthExpensesPerPersons;
 	}
 }
