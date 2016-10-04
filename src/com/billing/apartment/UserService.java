@@ -43,6 +43,7 @@ public class UserService {
 
 		session.save(expenses);
 		session.getTransaction().commit();
+		session.close();
 		return Response.status(200).entity("addMoney is called,name :" + name + ", amount:" + amount + ",spentby :"
 				+ spentby + ",date :" + dateent).build();
 
@@ -63,6 +64,7 @@ public class UserService {
 
 		session.save(expenses);
 		session.getTransaction().commit();
+		session.close();
 		return Response.status(200).entity("addConstantValue is Called, name:" + name + ",amount:" + amount).build();
 	}
 
@@ -81,6 +83,7 @@ public class UserService {
 		session.save(user);
 		session.getTransaction().commit();
 
+		session.close();
 		return Response.status(200).entity("addUser is Called, name:" + name).build();
 
 	}
@@ -106,6 +109,7 @@ public class UserService {
 			perPersonExpenses.setAMOUNT((int) h);
 			perPersonExpensess.add(perPersonExpenses);
 		}
+		session.close();
 		return perPersonExpensess;
 	}
 
@@ -113,7 +117,7 @@ public class UserService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/getTotalExpensesPerMonth")
 	public List<PerMonthExpensesPerPerson> getAmountPerPersonPerMonth() {
-		List<PerMonthExpensesPerPerson> perMonthExpensesPerPersons = new ArrayList<PerMonthExpensesPerPerson>();
+		List<PerMonthExpensesPerPerson> perMonthExpensesPerPersons;
 		List<PerPersonExpenses> perPersonExpensess = new ArrayList<PerPersonExpenses>();
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -121,9 +125,18 @@ public class UserService {
 		Long constanttemp = (Long) result1.get(0);
 		int consta = constanttemp.intValue();
 		Constant.CONSTANT = consta;
+		session.getTransaction().commit();
+		session.close();
+		perMonthExpensesPerPersons=getAmountPerPersonPerMonths();
+		return perMonthExpensesPerPersons;
+	}
+	public List<PerMonthExpensesPerPerson> getAmountPerPersonPerMonths() {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		List<PerMonthExpensesPerPerson> perMonthExpensesPerPersons = new ArrayList<PerMonthExpensesPerPerson>();
+		List<PerPersonExpenses> perPersonExpensess = new ArrayList<PerPersonExpenses>();
 		List result = session.createQuery("SELECT " + "ce.id," + "ce.spentby,"
 				+ "sum(ce.amount) AS AMOUNT  FROM CommonExpenses ce group by spentby").list();
-		session.getTransaction().commit();
+		session.close();
 		PerPersonExpenses perPersonExpenses;
 		for (int i = 0; i <= result.size() - 1; i++) {
 			Object[] result2 = (Object[]) result.get(i);
@@ -135,13 +148,29 @@ public class UserService {
 			perPersonExpenses.setAMOUNT((int) h);
 			perPersonExpensess.add(perPersonExpenses);
 		}
+		addEqualShare(perPersonExpensess);
 		for (int i = 0; i <= perPersonExpensess.size() - 1; i++) {
 			PerMonthExpensesPerPerson perMonthExpensesPerPerson = new PerMonthExpensesPerPerson();
 			perMonthExpensesPerPerson.setID(perPersonExpensess.get(i).getID());
 			perMonthExpensesPerPerson.setSPENTBY(perPersonExpensess.get(i).getSPENTBY());
 			perMonthExpensesPerPerson.setAMOUNT(perPersonExpensess.get(i).getAMOUNT() + Constant.CONSTANT);
+			perMonthExpensesPerPersons.add(perMonthExpensesPerPerson);
 		}
-		session.getTransaction().commit();
 		return perMonthExpensesPerPersons;
+	}
+
+	private void addEqualShare(List<PerPersonExpenses> perPersonExpensess) {
+		for (int i=0;i<perPersonExpensess.size()-1;i++){
+			int tempi=i;
+			int shareamount;
+			shareamount=perPersonExpensess.get(i).getAMOUNT()/3;
+			if (tempi!=i){
+				perPersonExpensess.get(i).setAMOUNT(perPersonExpensess.get(i).getAMOUNT()+shareamount);
+			}
+			else{
+				perPersonExpensess.get(i).setAMOUNT(perPersonExpensess.get(i).getAMOUNT()-shareamount);
+			}
+			tempi=tempi+1;
+		}
 	}
 }
