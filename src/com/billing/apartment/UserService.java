@@ -1,5 +1,6 @@
 package com.billing.apartment;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,7 +22,9 @@ import com.billing.model.ConstantValues;
 import com.billing.model.PerMonthExpensesPerPerson;
 import com.billing.model.PerPersonExpenses;
 import com.billing.model.User;
-import com.billing.util.HibernateUtil;;
+import com.billing.util.HibernateUtil;
+import com.sun.xml.bind.v2.runtime.unmarshaller.Base64Data;
+import sun.misc.BASE64Decoder;
 
 @Path("/user")
 public class UserService {
@@ -161,4 +164,31 @@ public class UserService {
 		}
 		return perMonthExpensesPerPersons;
 	}
+	private boolean isUserAuthenticated(String authString){
+        
+        String decodedAuth = "";
+        // Header is in the format "Basic 5tyc0uiDat4"
+        // We need to extract data before decoding it back to original string
+        String[] authParts = authString.split("\\s+");
+        String authInfo = authParts[1];
+        // Decode the data back to original string
+        byte[] bytes = null;
+        try {
+            bytes = new BASE64Decoder().decodeBuffer(authInfo);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        decodedAuth = new String(bytes);
+        System.out.println(decodedAuth);
+         
+        /**
+         * here you include your logic to validate user authentication.
+         * it can be using ldap, or token exchange mechanism or your 
+         * custom authentication mechanism.
+         */
+        // your validation code goes here....
+         
+        return true;
+    }
 }
