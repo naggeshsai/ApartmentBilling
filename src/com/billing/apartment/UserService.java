@@ -127,13 +127,15 @@ public class UserService {
 		Constant.CONSTANT = consta;
 		session.getTransaction().commit();
 		session.close();
-		perMonthExpensesPerPersons=getAmountPerPersonPerMonths();
+		perMonthExpensesPerPersons = getAmountPerPersonPerMonths();
 		return perMonthExpensesPerPersons;
 	}
+
 	public List<PerMonthExpensesPerPerson> getAmountPerPersonPerMonths() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		List<PerMonthExpensesPerPerson> perMonthExpensesPerPersons = new ArrayList<PerMonthExpensesPerPerson>();
 		List<PerPersonExpenses> perPersonExpensess = new ArrayList<PerPersonExpenses>();
+		int totalgrocessories = 0;
 		List result = session.createQuery("SELECT " + "ce.id," + "ce.spentby,"
 				+ "sum(ce.amount) AS AMOUNT  FROM CommonExpenses ce group by spentby").list();
 		session.close();
@@ -146,31 +148,17 @@ public class UserService {
 			Long x = (Long) result2[2];
 			int h = x.intValue();
 			perPersonExpenses.setAMOUNT((int) h);
+			totalgrocessories = totalgrocessories + h;
 			perPersonExpensess.add(perPersonExpenses);
 		}
-		addEqualShare(perPersonExpensess);
 		for (int i = 0; i <= perPersonExpensess.size() - 1; i++) {
 			PerMonthExpensesPerPerson perMonthExpensesPerPerson = new PerMonthExpensesPerPerson();
 			perMonthExpensesPerPerson.setID(perPersonExpensess.get(i).getID());
 			perMonthExpensesPerPerson.setSPENTBY(perPersonExpensess.get(i).getSPENTBY());
-			perMonthExpensesPerPerson.setAMOUNT(perPersonExpensess.get(i).getAMOUNT() + Constant.CONSTANT);
+			perMonthExpensesPerPerson
+					.setAMOUNT(Constant.CONSTANT + totalgrocessories/4 - perPersonExpensess.get(i).getAMOUNT());
 			perMonthExpensesPerPersons.add(perMonthExpensesPerPerson);
 		}
 		return perMonthExpensesPerPersons;
-	}
-
-	private void addEqualShare(List<PerPersonExpenses> perPersonExpensess) {
-		for (int i=0;i<perPersonExpensess.size()-1;i++){
-			int tempi=i;
-			int shareamount;
-			shareamount=perPersonExpensess.get(i).getAMOUNT()/3;
-			if (tempi!=i){
-				perPersonExpensess.get(i).setAMOUNT(perPersonExpensess.get(i).getAMOUNT()+shareamount);
-			}
-			else{
-				perPersonExpensess.get(i).setAMOUNT(perPersonExpensess.get(i).getAMOUNT()-shareamount);
-			}
-			tempi=tempi+1;
-		}
 	}
 }
