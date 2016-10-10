@@ -23,7 +23,7 @@ import com.billing.model.PerMonthExpensesPerPerson;
 import com.billing.model.PerPersonExpenses;
 import com.billing.model.User;
 import com.billing.util.HibernateUtil;
-import com.sun.xml.bind.v2.runtime.unmarshaller.Base64Data;
+
 import sun.misc.BASE64Decoder;
 
 @Path("/user")
