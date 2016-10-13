@@ -176,7 +176,6 @@ public class UserService {
         try {
             bytes = new BASE64Decoder().decodeBuffer(authInfo);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         decodedAuth = new String(bytes);
