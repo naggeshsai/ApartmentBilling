@@ -23,7 +23,11 @@ CREATE TABLE `constant_values` (
 CREATE TABLE `user` (
   `ID` int(11) NOT NULL,
   `NAME` varchar(45) NOT NULL,
+  `EMAIL` varchar(45) NOT NULL,
+  `PASSWORD` varchar(45) NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `UK_o3uyea7py4jnln0qxrtg1qqhq` (`NAME`),
-  UNIQUE KEY `ID_UNIQUE` (`ID`)
+  UNIQUE KEY `ID_UNIQUE` (`ID`),
+  UNIQUE KEY `EMAIL_UNIQUE` (`EMAIL`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SELECT * FROM apartmentbilling.user;

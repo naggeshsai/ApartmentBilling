@@ -73,8 +73,7 @@ public class UserService {
 
 	@POST
 	@Path("/addUser")
-	public Response addUser(@FormParam("name") String name) {
-		System.out.println("Name :" + name);
+	public Response addUser(@FormParam("name") String name,@FormParam("email")String email,@FormParam("password")String password) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
 		session.beginTransaction();
@@ -82,6 +81,8 @@ public class UserService {
 
 		user.setID(1);
 		user.setName(name);
+		user.setEmail(email);
+		user.setPassword(password);
 
 		session.save(user);
 		session.getTransaction().commit();
