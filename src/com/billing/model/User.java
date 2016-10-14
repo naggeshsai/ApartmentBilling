@@ -1,5 +1,7 @@
 package com.billing.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,20 +11,20 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "user", catalog = "apartmentbilling")
-public class User {
+public class User implements Serializable{
 	private int ID;
 	private String name;
 	private String email;
 	private String password;
-
+	@Id
+	@Column(name = "EMAIL", unique = true, nullable = false, length = 45)
 	public String getEmail() {
 		return email;
 	}
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
+	@Column(name = "PASSWORD", unique = true, nullable = false, length = 45)
 	public String getPassword() {
 		return password;
 	}

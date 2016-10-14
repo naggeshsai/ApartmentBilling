@@ -19,29 +19,15 @@
 											function() {
 												$
 														.ajax({
-															url : "http://localhost:8080/ApartmentBilling/billing/user/getAmountPerPerson",
-															contentType : "application/json; charset=utf-8",
-															type : "GET",
-															success : function(
-																	data) {
-																var perPersonExpensess = data;
-																var tabledef = "<table><th>Id</th><th>Spent by</th><th>Amount</th>";
-																var tableend = "</table>";
-																var outputtext = "";
-																for (var i = 0; i < perPersonExpensess.length; i++) {
-																	outputtext = outputtext
-																			+ "<tr><td>"
-																			+ perPersonExpensess[i].id
-																			+ "</td><td>"
-																			+ perPersonExpensess[i].spentby
-																			+ "</td><td>"
-																			+ perPersonExpensess[i].amount
-																			+ "</td></tr>";
+															url : "http://localhost:8080/ApartmentBilling/billing/user/authencticateUser",
+															type : "POST",
+															success : function(data) {
+																if(data == "true"){
+																	window.location.href = "http://localhost:8080/ApartmentBilling/Index.html";
 																}
-																document
-																		.getElementById("demo").innerHTML = tabledef
-																		+ outputtext
-																		+ tableend;
+																else{
+																	document.getElementById("demo").innerHTML ="Wrong Username and Password";
+																}
 															},
 															error : function(x,
 																	y, z) {
@@ -55,13 +41,14 @@
 	</script>
 	<table align="center">
 		<tr>
-			<td>Username :- <input type="text"></td>
+			<td>Email:- </td><td><input type="email" name="email"></td>
 		</tr>
 		<tr>
-			<td>Password :- <input type="text"><br></td>
+			<td>Password:- </td><td><input type="password" name="password"><br></td>
 		</tr>
 		<tr>
 			<td><button>Login</button></td>
+			<td><a href="/ApartmentBilling/AddUser.html">Sign Up</a></td>
 		</tr>
 	</table>
 </body>

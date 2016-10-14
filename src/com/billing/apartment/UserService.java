@@ -134,6 +134,13 @@ public class UserService {
 		perMonthExpensesPerPersons = getAmountPerPersonPerMonths();
 		return perMonthExpensesPerPersons;
 	}
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/authencticateUser")
+	public Response authenticateUser(@FormParam("email") String name,@FormParam("password") String password){
+		boolean isAuthenticated=isUserAuthenticated(name,password);
+		return Response.status(200).entity(String.valueOf(isAuthenticated)).build();
+	}
 
 	public List<PerMonthExpensesPerPerson> getAmountPerPersonPerMonths() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -165,30 +172,17 @@ public class UserService {
 		}
 		return perMonthExpensesPerPersons;
 	}
-	private boolean isUserAuthenticated(String authString){
-        
-        String decodedAuth = "";
-        // Header is in the format "Basic 5tyc0uiDat4"
-        // We need to extract data before decoding it back to original string
-        String[] authParts = authString.split("\\s+");
-        String authInfo = authParts[1];
-        // Decode the data back to original string
-        byte[] bytes = null;
-        try {
-            bytes = new BASE64Decoder().decodeBuffer(authInfo);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        decodedAuth = new String(bytes);
-        System.out.println(decodedAuth);
-         
-        /**
-         * here you include your logic to validate user authentication.
-         * it can be using ldap, or token exchange mechanism or your 
-         * custom authentication mechanism.
-         */
-        // your validation code goes here....
-         
+	private boolean isUserAuthenticated(String email,String password){
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		User user=(User) session.get(User.class, "naggesh.sai@gmail.com");
+		if (user == null) {
+		    System.out.println("There is no Contact object with id=2");
+		} else {
+		    System.out.println("Contact3's name: " + user.getName());
+		}
+		List result1 = session.createQuery("SELECT " + "FROM User WHERE email='"+email+"'").list();
+		session.close();
         return true;
     }
 }
