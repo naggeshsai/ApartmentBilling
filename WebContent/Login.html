@@ -3,12 +3,13 @@
 <head>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
+	
 </script>
 <meta charset="ISO-8859-1">
 <title>Login</title>
 </head>
 <body>
-<p id="demo"></p>
+	<p id="demo"></p>
 	<script>
 		$(document)
 				.ready(
@@ -24,13 +25,23 @@
 															success : function(
 																	data) {
 																var perPersonExpensess = data;
-																var tabledef="<table><th>Id</th><th>Spent by</th><th>Amount</th>";
-																var tableend="</table>";
+																var tabledef = "<table><th>Id</th><th>Spent by</th><th>Amount</th>";
+																var tableend = "</table>";
 																var outputtext = "";
 																for (var i = 0; i < perPersonExpensess.length; i++) {
-																	outputtext = outputtext	+ "<tr><td>" +perPersonExpensess[i].id + "</td><td>" + perPersonExpensess[i].spentby + "</td><td>" + perPersonExpensess[i].amount + "</td></tr>";
+																	outputtext = outputtext
+																			+ "<tr><td>"
+																			+ perPersonExpensess[i].id
+																			+ "</td><td>"
+																			+ perPersonExpensess[i].spentby
+																			+ "</td><td>"
+																			+ perPersonExpensess[i].amount
+																			+ "</td></tr>";
 																}
-																document.getElementById("demo").innerHTML =tabledef+outputtext+tableend;
+																document
+																		.getElementById("demo").innerHTML = tabledef
+																		+ outputtext
+																		+ tableend;
 															},
 															error : function(x,
 																	y, z) {
@@ -42,8 +53,16 @@
 											});
 						});
 	</script>
-	Username :- <input type="text" ><br>
-	Password :- <input type="text" ><br>
-	<button>Login</button>
+	<table align="center">
+		<tr>
+			<td>Username :- <input type="text"></td>
+		</tr>
+		<tr>
+			<td>Password :- <input type="text"><br></td>
+		</tr>
+		<tr>
+			<td><button>Login</button></td>
+		</tr>
+	</table>
 </body>
 </html>
