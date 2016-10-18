@@ -1,6 +1,8 @@
 package com.billing.apartment;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -73,7 +75,8 @@ public class UserService {
 
 	@POST
 	@Path("/addUser")
-	public Response addUser(@FormParam("name") String name,@FormParam("email")String email,@FormParam("password")String password) {
+	public Response addUser(@FormParam("name") String name, @FormParam("email") String email,
+			@FormParam("password") String password) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
 		session.beginTransaction();
@@ -134,12 +137,21 @@ public class UserService {
 		perMonthExpensesPerPersons = getAmountPerPersonPerMonths();
 		return perMonthExpensesPerPersons;
 	}
+
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/authencticateUser")
-	public Response authenticateUser(@FormParam("email") String name,@FormParam("password") String password){
-		boolean isAuthenticated=isUserAuthenticated(name,password);
-		return Response.status(200).entity(String.valueOf(isAuthenticated)).build();
+	public Response authenticateUser(@FormParam("email") String email, @FormParam("password") String password)
+			throws URISyntaxException {
+		boolean isAuthenticated = isUserAuthenticated(email, password);
+		URI uri = new URI("http://localhost:8080/ApartmentBilling/Index.jsp");
+		URI uri1 = new URI("http://localhost:8080/ApartmentBilling/");
+		Response.temporaryRedirect(uri).build();
+		if (isAuthenticated) {
+			return Response.temporaryRedirect(uri).build();
+		} else {
+			return Response.temporaryRedirect(uri1).build();
+		}
 	}
 
 	public List<PerMonthExpensesPerPerson> getAmountPerPersonPerMonths() {
@@ -167,22 +179,26 @@ public class UserService {
 			perMonthExpensesPerPerson.setID(perPersonExpensess.get(i).getID());
 			perMonthExpensesPerPerson.setSPENTBY(perPersonExpensess.get(i).getSPENTBY());
 			perMonthExpensesPerPerson
-					.setAMOUNT(Constant.CONSTANT + totalgrocessories/4 - perPersonExpensess.get(i).getAMOUNT());
+					.setAMOUNT(Constant.CONSTANT + totalgrocessories / 4 - perPersonExpensess.get(i).getAMOUNT());
 			perMonthExpensesPerPersons.add(perMonthExpensesPerPerson);
 		}
 		return perMonthExpensesPerPersons;
 	}
-	private boolean isUserAuthenticated(String email,String password){
+
+	private boolean isUserAuthenticated(String email, String password) {
+		User user = new User();
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
-		User user=(User) session.get(User.class, "naggesh.sai@gmail.com");
-		if (user == null) {
-		    System.out.println("There is no Contact object with id=2");
-		} else {
-		    System.out.println("Contact3's name: " + user.getName());
+		// User user=(User) session.get(User.class, "naggesh.sai@gmail.com")
+		List result = session.createQuery("FROM User WHERE email='" + email + "'").list();
+		for (int i = 0; i <= result.size() - 1; i++) {
+			user = (User) result.get(i);
 		}
-		List result1 = session.createQuery("SELECT " + "FROM User WHERE email='"+email+"'").list();
+		if (user.getEmail().equalsIgnoreCase(email) && user.getPassword().equalsIgnoreCase(password)) {
+			session.close();
+			return true;
+		}
 		session.close();
-        return true;
-    }
+		return false;
+	}
 }
