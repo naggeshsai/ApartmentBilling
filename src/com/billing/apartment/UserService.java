@@ -1,6 +1,5 @@
 package com.billing.apartment;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -25,8 +24,6 @@ import com.billing.model.PerMonthExpensesPerPerson;
 import com.billing.model.PerPersonExpenses;
 import com.billing.model.User;
 import com.billing.util.HibernateUtil;
-
-import sun.misc.BASE64Decoder;
 
 @Path("/user")
 public class UserService {

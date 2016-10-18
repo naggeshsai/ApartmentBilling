@@ -12,6 +12,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "user", catalog = "apartmentbilling")
 public class User implements Serializable{
+
+	private static final long serialVersionUID = -5417545137106125653L;
 	private int ID;
 	private String name;
 	private String email;
