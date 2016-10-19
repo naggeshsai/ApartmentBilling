@@ -11,15 +11,15 @@
 		<table align="center">
 			<tr>
 				<td>Name -</td>
-				<td><input type="text" name="name"></td>
+				<td><input type="text" name="name" required></td>
 			</tr>
 			<tr>
 				<td>Amount -</td>
-				<td><input type="text" name="amount"></td>
+				<td><input type="text" name="amount" required></td>
 			</tr>
 			<tr>
 				<td></td>
-				<td><input type="submit" value="Add Value"></td>
+				<td><input type="submit" value="Add Value" ></td>
 			</tr>
 		</table>
 	</form>

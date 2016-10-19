@@ -14,10 +14,10 @@
 	<form action="billing/user/authencticateUser" method="post">
 	<table align="center">
 		<tr>
-			<td>Email:- </td><td><input type="email" name="email"></td>
+			<td>Email:- </td><td><input type="email" name="email" required></td>
 		</tr>
 		<tr>
-			<td>Password:- </td><td><input type="password" name="password"><br></td>
+			<td>Password:- </td><td><input type="password" name="password" required><br></td>
 		</tr>
 		<tr>
 			<td><button>Login</button></td>

@@ -182,7 +182,7 @@ public class UserService {
 		return perMonthExpensesPerPersons;
 	}
 
-	private boolean isUserAuthenticated(String email, String password) {
+	public boolean isUserAuthenticated(String email, String password) {
 		User user = new User();
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();

@@ -11,23 +11,23 @@
 		<table align="center">
 			<tr>
 				<td>Name-</td>
-				<td><input type="text" name="name"></td>
+				<td><input type="text" name="name" required></td>
 			</tr>
 			<tr>
 				<td>Amount-</td>
-				<td><input type="text" name="amount"></td>
+				<td><input type="text" name="amount" required></td>
 			</tr>
 			<tr>
 				<td>Spent by-</td>
-				<td><input type="text" name="spentby"></td>
+				<td><input type="text" name="spentby" required></td>
 			</tr>
 			<tr>
 				<td>Date-</td>
-				<td><input type="text" name="entereddate"></td>
+				<td><input type="text" name="entereddate" required></td>
 			</tr>
 			<tr>
 				<td></td>
-				<td><input type="submit" value="Add Money"></td>
+				<td><input type="submit" value="Add Money" ></td>
 			</tr>
 		</table>
 	</form>

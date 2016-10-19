@@ -11,15 +11,15 @@
 		<table align="center">
 			<tr>
 				<td>Name -</td>
-				<td><input type="text" name="name"></td>
+				<td><input type="text" name="name" required></td>
 			</tr>
 			<tr>
 				<td>Email -</td>
-				<td><input type="email" name="email"></td>
+				<td><input type="email" name="email" required></td>
 			</tr>
 			<tr>
 				<td>Password -</td>
-				<td><input type="password" name="password"></td>
+				<td><input type="password" name="password" required></td>
 			</tr>
 			<tr>
 				<td></td>
