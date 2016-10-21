@@ -7,18 +7,23 @@
 <title>Home Page</title>
 </head>
 <body>
+<%
+String email="a";
+if (request.getParameter("email")!=null){
+	email=(String) request.getParameter("email");
+	}%>
 	<table align="center">
 		<tr>
-			<td><a href="/ApartmentBilling/Login.jsp">Login</a><br></td>
-			<td><a href="/ApartmentBilling/AddConstantValues.jsp">AddConstantValues</a><br>
+			<td><a href=/ApartmentBilling/Login.jsp>Login</a><br></td>
+			<td><a href=/ApartmentBilling/AddConstantValues.jsp?email=<%=email %>>AddConstantValues</a><br>
 			</td>
-			<td><a href="/ApartmentBilling/AddMoney.jsp">AddMoney</a><br>
+			<td><a href=/ApartmentBilling/AddMoney.jsp?email=<%=email %>>AddMoney</a><br>
 			</td>
-			<td><a href="/ApartmentBilling/Register.jsp">Register</a><br>
+			<td><a href=/ApartmentBilling/Register.jsp?email=<%=email %>>Register</a><br>
 			</td>
-			<td><a href="/ApartmentBilling/PerPersonExpenses.jsp">PerPersonExpenses</a><br>
+			<td><a href=/ApartmentBilling/PerPersonExpenses.jsp?email=<%=email %>>PerPersonExpenses</a><br>
 			</td>
-			<td><a href="/ApartmentBilling/PerPersonPerMonthExpenses.jsp">PerPersonPerMonthExpenses</a><br>
+			<td><a href=/ApartmentBilling/PerPersonPerMonthExpenses.jsp?email=<%=email %>>PerPersonPerMonthExpenses</a><br>
 			</td>
 		</tr>
 	</table>

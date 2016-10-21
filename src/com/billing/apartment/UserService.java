@@ -141,7 +141,7 @@ public class UserService {
 	public Response authenticateUser(@FormParam("email") String email, @FormParam("password") String password)
 			throws URISyntaxException {
 		boolean isAuthenticated = isUserAuthenticated(email, password);
-		URI uri = new URI("http://localhost:8080/ApartmentBilling/Index.jsp");
+		URI uri = new URI("http://localhost:8080/ApartmentBilling/Index.jsp?email="+email);
 		URI uri1 = new URI("http://localhost:8080/ApartmentBilling/");
 		Response.temporaryRedirect(uri).build();
 		if (isAuthenticated) {
