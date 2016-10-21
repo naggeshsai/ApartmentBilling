@@ -20,7 +20,7 @@
 			<td>Password:- </td><td><input type="password" name="password" required><br></td>
 		</tr>
 		<tr>
-			<td><button>Login</button></td>
+			<td><input type="submit" value="Loign"></input></td>
 			<td><a href="/ApartmentBilling/AddUser.jsp">Sign Up</a></td>
 		</tr>
 	</table>

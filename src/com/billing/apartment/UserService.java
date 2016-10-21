@@ -186,14 +186,15 @@ public class UserService {
 		User user = new User();
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
-		// User user=(User) session.get(User.class, "naggesh.sai@gmail.com")
 		List result = session.createQuery("FROM User WHERE email='" + email + "'").list();
 		for (int i = 0; i <= result.size() - 1; i++) {
 			user = (User) result.get(i);
 		}
-		if (user.getEmail().equalsIgnoreCase(email) && user.getPassword().equalsIgnoreCase(password)) {
-			session.close();
-			return true;
+		if (user.getEmail() != null && user.getPassword() != null) {
+			if (user.getEmail().equalsIgnoreCase(email) && user.getPassword().equalsIgnoreCase(password)) {
+				session.close();
+				return true;
+			}
 		}
 		session.close();
 		return false;
