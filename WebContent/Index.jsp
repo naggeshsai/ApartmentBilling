@@ -14,7 +14,7 @@
 			</td>
 			<td><a href="/ApartmentBilling/AddMoney.jsp">AddMoney</a><br>
 			</td>
-			<td><a href="/ApartmentBilling/AddUser.jsp">Register</a><br>
+			<td><a href="/ApartmentBilling/Register.jsp">Register</a><br>
 			</td>
 			<td><a href="/ApartmentBilling/PerPersonExpenses.jsp">PerPersonExpenses</a><br>
 			</td>
